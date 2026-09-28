@@ -1,0 +1,5 @@
+slug: laogu-risk
+display_name: 财务风险预警
+description: 财务风险预警：输入一家 A 股公司，抓取最近年报/半年报关键财务，逐项打分输出红黄绿灯财务风险体检表。
+version: 1.0.0
+author: 老谷拆财报
