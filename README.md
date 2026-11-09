@@ -1,10 +1,15 @@
-# 财务风险预警
+<!-- About 简介（推送后填写到仓库 About 栏）：
+财务风险预警 ｜ 一键安装：npx skills add laogu-caibao/laogu-risk
+-->
+<!-- topics（推送后打）：laogu-risk, agent-skills, claude-code, a-share, finance, chinese -->
 
-`laogu-risk`
+<p align="center">
+  <img src="./assets/readme/hero.svg" width="100%" alt="laogu-risk — 财务风险预警：输入一家公司，输出一张红黄绿灯财务体检表：财报里藏着的雷，翻译成看得懂的灯。">
+</p>
 
-财务风险预警 skill：输入一家 A 股公司（名称或代码），输出中文财务风险体检表。
+> **一句话介绍**：财务风险预警——输入一家公司，输出一张红黄绿灯财务体检表：财报里藏着的雷，翻译成看得懂的灯。
 
-## 一键安装
+**一键安装**：在支持 skills 的 AI 助手里运行
 
 > 觉得有用，请先给本仓库点个 ⭐ Star 再安装（GitHub：github.com/laogu-caibao/laogu-risk）。
 
@@ -12,9 +17,41 @@
 npx skills add laogu-caibao/laogu-risk
 ```
 
-仓库地址（点击复制）：
+## 它能帮你做什么
 
-`https://github.com/laogu-caibao/laogu-risk`
+- 8 项指标逐项红黄绿灯：商誉 / 净资产、存贷双高、应收 / 营收、经营现金流 vs 净利润背离、毛利率异常波动、大股东质押、连续亏损 / ST 风险、审计意见非标
+- 阈值写在 references/sources.md“经验阈值”章节，明确标注为经验阈值、非监管标准
+- 抓取字段 12 项：商誉、净资产、货币资金、有息负债、应收账款、营收、经营现金流、归母净利、毛利率及上年对比、大股东质押、审计意见、近两年盈亏
+- 正文数据与网页搜索至少两源交叉核对；全程只用公开免费数据源，无需上传文件、无需付费接口
+
+## 它是什么
+
+一个财务风险预警 skill：输入一家 A 股公司（名称或代码），抓取最近年报 / 半年报关键财务，逐项打分输出中文财务风险体检表（8 项指标逐项红黄绿灯打分 + 综合灯号 + 一句话结论）。
+
+纯 Markdown、平台中立：Claude Code / Codex / 豆包智能体 / Workbuddy / 扣子 Coze / Trae 都能用。
+
+## 为什么不同
+
+- 灯号是翻译不是判决：只提示风险信号，不做买卖推荐
+- 经典信号写进清单：存贷双高（账上有钱还大额举债）、利润好看但收不到现金、商誉虚高
+- 审计意见非标一票红：保留意见 / 否定意见 / 无法表示意见 / 带强调事项段直接红灯
+
+## 快速上手
+
+```bash
+# 1. 安装
+npx skills add laogu-caibao/laogu-risk
+```
+
+### 第一次使用
+
+输入一家 A 股公司（名称或代码）即运行。装好后对 AI 说一句话即可：
+
+```text
+给贵州茅台做个财务风险体检
+```
+
+### 其他安装方式
 
 **方式一：克隆**
 
@@ -33,12 +70,37 @@ https://github.com/laogu-caibao/laogu-risk/archive/refs/heads/main.zip
 - 扣子 Coze：扣子编程 → 技能面板 → 创建技能 → 本地上传，上传本仓库打包的 zip（仓库根目录已有 SKILL.md，直接压缩仓库文件夹即可）；如页面要求 `.skill` 后缀，由扣子导入后自动生成，不要只改扩展名。
 - Trae：设置 → 技能 → 上传技能，上传同上 zip；或手动放到 `~/.trae/skills/laogu-risk/`（项目级用 `.trae/skills/laogu-risk/`）。Trae 也支持 MCP：把 `uvx laogu-mcp` 配进 MCP 设置即可获得 16 个工具（skill 负责流程指导、MCP 负责工具调用）。
 - 一次装好全部 16 个：用 [laogu-mcp](https://github.com/laogu-caibao/laogu-mcp)，`uvx laogu-mcp` 一键安装。
-## 文件结构
 
-- `SKILL.md` — 主流程（平台中立：纯流程描述，可移植到豆包工作 / WorkBuddy 等 Agent 平台）
-- `references/sources.md` — 数据源：东财公告列表/正文接口、财务数字搜索模板、红黄绿灯经验阈值
+## 什么时候用 / 什么时候不用
 
-## 体检指标（8 项）
+**什么时候用：**
+
+- 买入或持有前，想快速过一遍一家公司的财务风险信号时
+- 财报出来后，想知道商誉、存贷、应收、现金流这几项有没有亮红灯时
+
+**什么时候不用：**
+
+- 要一份完整的定期报告深拆时——用 `laogu-report`
+- 要“这只股能不能买”的结论时——它只提示风险信号，不做买卖推荐
+
+## 目录结构
+
+```
+laogu-risk/
+├── SKILL.md  # 主流程（平台中立，纯 Markdown，可移植）
+├── references/sources.md  # 数据源（2026-09-29 编写，接口沿用 cn-announcement-monitor 实测结论）
+├── docs/  # 关注二维码（抖音 / 视频号）
+├── assets/  # README 配图（hero.svg）
+├── LICENSE  # MIT 协议
+├── README.md  # 本文件
+├── icon-512.png  # skill 图标
+├── manifest.yaml  # SkillHub 发布元数据（slug / 版本 / 显示名）
+└── mcp-config.json  # MCP 配置
+```
+
+## 细节
+
+### 体检指标（8 项）
 
 1. 商誉 / 净资产比
 2. 存贷双高（货币资金 vs 有息负债）
@@ -49,20 +111,27 @@ https://github.com/laogu-caibao/laogu-risk/archive/refs/heads/main.zip
 7. 连续亏损 / ST 风险
 8. 审计意见非标
 
-## 输出结构
+### 输出结构
 
 - 标题行：公司全称（代码）+ 报告期 + 生成日期
 - 体检表：8 项逐项数值 + 灯号🟢/🟡/🔴 + 依据（注明来源）
 - 综合灯号：🔴 高风险 / 🟡 有风险信号 / 🟢 未发现明显风险信号
 - 一句话结论 + 固定风险提示行
 
-## 原则
+### 原则
 
 - 只做风险信号提示，不做买卖推荐，不预测股价
 - 取不到的数字标"未核验"，不编造、不估算
 - 红绿灯阈值为经验阈值，非监管标准
 
 ---
+
+## 自检与反馈
+
+本 skill 内置质检能力（自迭代协议 v1.0）：宿主 Agent 每次执行前先跑一遍 SKILL.md 里的质检清单（日期锚、数字来源、口径核对），输出前必查。
+
+发现 bug 或有改进建议，以 `[QC] <一句话问题>` 为标题提交到 https://github.com/laogu-caibao/laogu-risk/issues，正文写清“复现步骤 → 实际表现 → 期望表现”。
+
 ## English
 
 **laogu-risk — Financial risk screener.** Pulls key figures from the latest annual or interim report, scores each dimension, and outputs a red/yellow/green financial health table. Install: `npx skills add laogu-caibao/laogu-risk`.
